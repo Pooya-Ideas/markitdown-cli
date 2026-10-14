@@ -181,10 +181,12 @@ class MarkitdownGUI(tk.Tk):
 
                 self.after(0, done)
             except Exception as e:
-                def fail() -> None:
+                err_msg = str(e)
+
+                def fail(msg=err_msg) -> None:
                     self._set_busy(False)
-                    self._log(f"Error: {e}")
-                    messagebox.showerror("Error", str(e))
+                    self._log(f"Error: {msg}")
+                    messagebox.showerror("Error", msg)
 
                 self.after(0, fail)
 
