@@ -1,0 +1,51 @@
+# This workflow will install Python dependencies with Anaconda (conda),
+# run lint and basic smoke tests across Python versions.
+# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python Package using Anaconda
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 5
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Miniconda (Python ${{ matrix.python-version }})
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        auto-update-conda: true
+        python-version: ${{ matrix.python-version }}
+        activate-environment: markitdown-cli
+        auto-activate-base: false
+
+    - name: Install dependencies with conda / pip
+      shell: bash -l {0}
+      run: |
+        conda info
+        python -m pip install --upgrade pip
+        python -m pip install flake8 pytest
+        python -m pip install "markitdown[docx,pptx,xlsx,pdf]" undoc pymupdf python-bidi
+
+    - name: Lint with flake8
+      shell: bash -l {0}
+      run: |
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=.git,__pycache__
+        flake8 . --count --exit-zero --max-complexity=12 --max-line-length=120 --statistics --exclude=.git,__pycache__
+
+    - name: Smoke import tests
+      shell: bash -l {0}
+      run: |
+        python -c "import converter; print('converter OK')"
+        python -c "import gui; print('gui OK')"
+        python converter.py --help
