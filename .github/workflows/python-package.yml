@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+concurrency:
+  group: ci-pip-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: windows-latest
@@ -15,20 +19,29 @@ jobs:
         python-version: ["3.10", "3.11", "3.12"]
     steps:
     - uses: actions/checkout@v4
+
     - uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install
+        cache: pip
+
+    - name: Install package and tools
       run: |
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         python -m pip install -e ".[dev]"
-    - name: Lint
+
+    - name: Lint (errors only)
       run: |
         flake8 doc2md tests converter.py gui.py --count --select=E9,F63,F7,F82 --show-source --statistics
+
+    - name: Lint (soft)
+      run: |
         flake8 doc2md tests converter.py gui.py --count --exit-zero --max-line-length=120 --statistics
+
     - name: Tests
       run: pytest -q
+
     - name: CLI smoke
       run: |
         python converter.py --check

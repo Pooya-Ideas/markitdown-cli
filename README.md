@@ -6,7 +6,7 @@ Windows-friendly CLI + GUI around [Microsoft MarkItDown](https://github.com/micr
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey.svg)]()
+[![CI](https://github.com/Pooya-Ideas/markitdown-cli/actions/workflows/python-package.yml/badge.svg)](https://github.com/Pooya-Ideas/markitdown-cli/actions/workflows/python-package.yml)
 
 ---
 
@@ -24,8 +24,6 @@ git clone https://github.com/Pooya-Ideas/markitdown-cli.git
 cd markitdown-cli
 install.bat
 ```
-
-Or with pip:
 
 ```bash
 pip install -e .
@@ -45,35 +43,21 @@ pip install -e .
 | GUI | double-click `gui.bat` |
 | Menu | double-click `run.bat` |
 
-After `pip install -e .`:
+---
 
-```bash
-doc2md report.docx
-doc2md --code-project ./src --single-file
-```
+## Documentation
+
+- **[Docs home](docs/Home.md)** — full guide
+- [Installation](docs/Installation.md) · [Usage](docs/Usage.md) · [Persian PDF](docs/Persian-PDF.md) · [Troubleshooting](docs/Troubleshooting.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md) · [Security](SECURITY.md) · [Accessibility](ACCESSIBILITY.md) · [Contributing](CONTRIBUTING.md)
 
 ---
 
 ## Farsi / Persian PDF notes
 
 - Default RTL mode keeps **logical** Unicode order (correct for LLMs).
-- Structural cleanup fixes: section numbers (`1-1`), mid-word line breaks, compound hyphens.
-- Some PDFs have broken font maps (extra letters like `ن`) — prefer the original **Word (.docx)** or OCR for those.
-
----
-
-## Project layout
-
-```
-markitdown-cli/
-├── converter.py          # backward-compatible entry
-├── gui.py / gui.bat
-├── run.bat / check.bat / install.bat
-├── doc2md/               # package
-├── tests/
-├── pyproject.toml
-└── README.md
-```
+- Structural cleanup fixes section numbers, mid-word line breaks, and compound hyphens.
+- Broken PDF font maps still need DOCX source or OCR — see [Persian-PDF](docs/Persian-PDF.md).
 
 ---
 
