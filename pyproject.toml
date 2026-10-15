@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "markitdown-cli"
+version = "2.0.1"
+description = "Convert Office/PDF documents and code projects to self-contained Markdown for LLMs"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Pooya-Ideas" }]
+keywords = ["markdown", "markitdown", "docx", "pdf", "llm", "cli"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Text Processing",
+]
+dependencies = [
+  "markitdown[docx,pptx,xlsx,pdf]>=0.0.1a3,<1.0",
+  "undoc>=0.1.0,<1.0",
+  "pymupdf>=1.24.0,<2.0",
+  "python-bidi>=0.4.0,<1.0",
+  "tqdm>=4.66.0,<5.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "flake8>=6.0"]
+
+[project.scripts]
+doc2md = "doc2md.cli:main"
+markitdown-cli = "doc2md.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Pooya-Ideas/markitdown-cli"
+Repository = "https://github.com/Pooya-Ideas/markitdown-cli"
+
+[tool.setuptools.packages.find]
+include = ["doc2md*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
