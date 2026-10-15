@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussions / Q&A
+    url: https://github.com/Pooya-Ideas/markitdown-cli/issues
+    about: For general questions, open an issue with a clear title.
+  - name: Security vulnerability
+    url: https://github.com/Pooya-Ideas/markitdown-cli/security/advisories/new
+    about: Please report security issues privately (see SECURITY.md).

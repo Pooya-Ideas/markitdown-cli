@@ -1,0 +1,64 @@
+name: Bug report
+description: Report a problem with conversion, CLI, or GUI
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Markitdown-CLI. Please fill out the sections below.
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+      description: Output of `python converter.py --version` or git commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows 10
+        - Windows 11
+        - Linux
+        - macOS
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: "3.12.x"
+    validations:
+      required: true
+  - type: textarea
+    id: check
+    attributes:
+      label: `converter.py --check` output
+    validations:
+      required: false
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Sample file notes
+      description: File type (docx/pdf/…), language (e.g. Persian), and whether you can share a minimal sample

@@ -1,0 +1,46 @@
+name: Accessibility barrier
+description: Report a barrier for assistive technology or inclusive use
+title: "[A11y]: "
+labels: ["accessibility"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Accessibility reports are treated with high priority. See [ACCESSIBILITY.md](../../ACCESSIBILITY.md).
+  - type: input
+    id: at
+    attributes:
+      label: Assistive technology
+      description: e.g. NVDA, JAWS, VoiceOver, None (keyboard-only)
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: OS and environment
+      placeholder: Windows 11 + Windows Terminal
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Blocker — cannot complete core task
+        - Major — significant difficulty
+        - Minor — inconvenience
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce the barrier
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: What could you not do?
+    validations:
+      required: true
