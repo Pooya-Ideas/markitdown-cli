@@ -1,79 +1,66 @@
 @echo off
-REM ============================================================
-REM  Markitdown CLI - Installer / Updater
-REM ============================================================
 chcp 65001 >nul
-setlocal EnableDelayedExpansion
+setlocal
 cd /d "%~dp0"
-
 set PYTHONUTF8=1
 set PYTHONIOENCODING=utf-8
 
 echo.
 echo  ========================================================
-echo                Markitdown CLI  -  Install Prerequisites
+echo           Markitdown-CLI  -  Install Prerequisites
 echo  ========================================================
 echo.
 
 python --version >nul 2>&1
-if %ERRORLEVEL% NEQ 0 (
-    echo  [ERROR] Python is not installed or not in PATH.
-    echo          Download Python 3.10+ from https://www.python.org/downloads/
-    echo          IMPORTANT: check "Add Python to PATH" during installation.
+if errorlevel 1 (
+    echo  [ERROR] Python 3.10+ required and must be on PATH.
+    echo          https://www.python.org/downloads/
     echo.
-    echo  Press any key to exit...
-    pause >nul
+    pause
     exit /b 1
 )
 
 echo  [INFO] Upgrading pip...
 python -m pip install --upgrade pip
-if %ERRORLEVEL% NEQ 0 (
-    echo  [ERROR] Failed to upgrade pip.
-    echo          Try running as Administrator, or: python -m pip install --user --upgrade pip
-    echo.
-    echo  Press any key to exit...
-    pause >nul
+if errorlevel 1 (
+    echo  [ERROR] pip upgrade failed.
+    pause
     exit /b 1
 )
 
-echo.
-echo  [INFO] Installing markitdown with Office + PDF extras...
-python -m pip install --upgrade "markitdown[docx,pptx,xlsx,pdf]"
-if %ERRORLEVEL% NEQ 0 (
-    echo  [ERROR] Failed to install markitdown.
-    echo          Try: python -m pip install --user "markitdown[docx,pptx,xlsx,pdf]"
-    echo.
-    echo  Press any key to exit...
-    pause >nul
+echo  [INFO] Installing markitdown...
+python -m pip install --upgrade "markitdown[docx,pptx,xlsx,pdf]>=0.0.1a3,<1.0"
+if errorlevel 1 (
+    echo  [ERROR] markitdown install failed. Try: python -m pip install --user "markitdown[docx,pptx,xlsx,pdf]"
+    pause
     exit /b 1
 )
 
-echo.
-echo  [INFO] Installing undoc (for image extraction)...
-python -m pip install --upgrade undoc
-if %ERRORLEVEL% NEQ 0 (
-    echo  [WARNING] Failed to install undoc.
-) else (
-    echo  [OK] undoc installed successfully.
-)
+echo  [INFO] Installing undoc...
+python -m pip install --upgrade "undoc>=0.1.0,<1.0"
+if errorlevel 1 echo  [WARNING] undoc install failed - images may be skipped.
 
-echo.
-echo  [INFO] Installing PyMuPDF + python-bidi (better Persian/Arabic PDF support)...
-python -m pip install --upgrade pymupdf python-bidi
-if %ERRORLEVEL% NEQ 0 (
-    echo  [WARNING] Failed to install pymupdf / python-bidi.
-) else (
-    echo  [OK] pymupdf and python-bidi installed successfully.
-)
+echo  [INFO] Installing pymupdf...
+python -m pip install --upgrade "pymupdf>=1.24.0,<2.0"
+if errorlevel 1 echo  [WARNING] pymupdf install failed - PDF quality may be lower.
+
+echo  [INFO] Installing python-bidi...
+python -m pip install --upgrade "python-bidi>=0.4.0,<1.0"
+if errorlevel 1 echo  [WARNING] python-bidi install failed.
+
+echo  [INFO] Installing tqdm...
+python -m pip install --upgrade "tqdm>=4.66.0,<5.0"
+
+echo  [INFO] Installing package editable...
+python -m pip install -e .
+if errorlevel 1 echo  [WARNING] editable install skipped - converter.py still works.
 
 echo.
 echo  ========================================================
-echo  [SUCCESS] Installation finished!
-echo  You can now use gui.bat or run.bat.
+echo  [SUCCESS] Installation finished.
+echo  Use run.bat or gui.bat to convert files.
 echo  ========================================================
 echo.
-echo  Press any key to return to the menu...
-pause >nul
+pause
 endlocal
 exit /b 0
